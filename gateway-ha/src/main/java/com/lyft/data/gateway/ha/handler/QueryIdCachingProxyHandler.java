@@ -40,6 +40,7 @@ public class QueryIdCachingProxyHandler extends ProxyHandler {
   public static final String USER_HEADER = "X-Trino-User";
   public static final String ALTERNATE_USER_HEADER = "X-Presto-User";
   public static final String SOURCE_HEADER = "X-Trino-Source";
+  public static final String X_FORWARDED_PROTO_HEADER = "X-Forwarded-Proto";
   public static final String ALTERNATE_SOURCE_HEADER = "X-Presto-Source";
   public static final String HOST_HEADER = "Host";
   public static final String REFERER_STRING = "Referer";
@@ -92,6 +93,7 @@ public class QueryIdCachingProxyHandler extends ProxyHandler {
       setForwardedHostHeaderOnProxyRequest(request, proxyRequest);
     }
 
+    setForwardedProtoOnProxyRequest(request, proxyRequest);
   }
 
   private boolean isPathWhiteListed(String path) {
@@ -294,6 +296,15 @@ public class QueryIdCachingProxyHandler extends ProxyHandler {
       log.error("Error in proxying falling back to super call", e);
     }
     super.postConnectionHook(request, response, buffer, offset, length, callback);
+  }
+
+  static void setForwardedProtoOnProxyRequest(HttpServletRequest request,
+      Request proxyRequest) {
+    if (request.getHeader(X_FORWARDED_PROTO_HEADER) != null) {
+      proxyRequest.header(X_FORWARDED_PROTO_HEADER, request.getHeader(X_FORWARDED_PROTO_HEADER));
+    } else {
+      proxyRequest.header(X_FORWARDED_PROTO_HEADER, request.getScheme());
+    }
   }
 
   static void setForwardedHostHeaderOnProxyRequest(HttpServletRequest request,
