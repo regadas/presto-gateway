@@ -53,7 +53,6 @@ public class ProxyServletImpl extends ProxyServlet.Transparent {
   /** Customize the headers of forwarding proxy requests. */
   @Override
   protected void addProxyHeaders(HttpServletRequest request, Request proxyRequest) {
-    proxyRequest.header(HttpHeader.X_FORWARDED_PROTO, "https");
     if (serverConfig.isForwardedHttps()) {
       proxyRequest.header(HttpHeader.X_FORWARDED_PROTO, "https");
     }
