@@ -19,4 +19,7 @@ public class RequestRouterConfiguration {
 
   // Use the certificate between gateway and presto?
   private boolean forwardKeystore;
+
+  // assume https if forwarded by a proxy
+  private boolean forwardedHttps;
 }

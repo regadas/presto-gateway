@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.api.Response;
+import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.proxy.ProxyServlet;
 import org.eclipse.jetty.util.Callback;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -52,6 +53,11 @@ public class ProxyServletImpl extends ProxyServlet.Transparent {
   /** Customize the headers of forwarding proxy requests. */
   @Override
   protected void addProxyHeaders(HttpServletRequest request, Request proxyRequest) {
+    proxyRequest.header(HttpHeader.X_FORWARDED_PROTO, "https");
+    if (serverConfig.isForwardedHttps()) {
+      proxyRequest.header(HttpHeader.X_FORWARDED_PROTO, "https");
+    }
+
     super.addProxyHeaders(request, proxyRequest);
     if (proxyHandler != null) {
       proxyHandler.preConnectionHook(request, proxyRequest);
