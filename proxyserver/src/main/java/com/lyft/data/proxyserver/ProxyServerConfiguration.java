@@ -14,6 +14,7 @@ public class ProxyServerConfiguration {
   private String keystorePath;
   private String keystorePass;
   private boolean forwardKeystore;
+  private boolean forwardedHttps;
 
   protected String getPrefix() {
     return prefix;
@@ -45,5 +46,9 @@ public class ProxyServerConfiguration {
 
   protected int getLocalPort() {
     return localPort;
+  }
+
+  protected boolean isForwardedHttps() {
+    return forwardedHttps;
   }
 }
