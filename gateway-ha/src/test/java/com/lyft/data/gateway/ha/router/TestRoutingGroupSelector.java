@@ -114,6 +114,8 @@ public class TestRoutingGroupSelector {
         + "  - \"result.put(\\\"routingGroup\\\", \\\"etl2\\\")\""); // change from etl to etl2
     fw.close();
 
+    routingGroupSelector =
+        RoutingGroupSelector.byRoutingRulesEngine(file.getPath());
     when(mockRequest.getHeader(TRINO_SOURCE_HEADER)).thenReturn("airflow");
     Assert.assertEquals(
         routingGroupSelector.findRoutingGroup(mockRequest), "etl2");
