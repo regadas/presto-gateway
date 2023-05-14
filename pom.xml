@@ -18,10 +18,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <jetty.version>9.4.48.v20220622</jetty.version>
-        <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.18.22</lombok.version>
         <testng.version>6.10</testng.version>
         <mockwebserver.version>1.2.1</mockwebserver.version>
+
+        <logback.version>1.2.3</logback.version>
+        <logback.contrib.version>0.1.5</logback.contrib.version>
 
         <maven.checkstyle.plugin.version>3.0.0</maven.checkstyle.plugin.version>
         <puppycrawl.tools.checkstyle.version>7.7</puppycrawl.tools.checkstyle.version>
@@ -46,12 +48,33 @@
                 <artifactId>jetty-servlet</artifactId>
                 <version>${jetty.version}</version>
             </dependency>
+
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j.version}</version>
-                <scope>provided</scope>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
             </dependency>
+            <!-- ch.qos.logback.contrib.jackson.JacksonJsonFormatter -->
+            <dependency>
+                <groupId>ch.qos.logback.contrib</groupId>
+                <artifactId>logback-jackson</artifactId>
+                <version>${logback.contrib.version}</version>
+            </dependency>
+
+            <!-- ch.qos.logback.contrib.json.classic.JsonLayout -->
+            <dependency>
+                <groupId>ch.qos.logback.contrib</groupId>
+                <artifactId>logback-json-classic</artifactId>
+                <version>${logback.contrib.version}</version>
+            </dependency>
+
+            <!-- com.fasterxml.jackson.databind.ObjectMapper -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.5</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
