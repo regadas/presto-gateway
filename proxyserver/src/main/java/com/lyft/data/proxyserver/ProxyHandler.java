@@ -68,7 +68,11 @@ public class ProxyHandler {
       Enumeration<String> headers = request.getHeaderNames();
       while (headers.hasMoreElements()) {
         String header = headers.nextElement();
-        log.debug(header + "->" + request.getHeader(header));
+        if (header.equalsIgnoreCase("authorization")) {
+          log.debug(header + "-> [REDACTED]");
+        } else {
+          log.debug(header + "->" + request.getHeader(header));
+        }
       }
     }
   }
