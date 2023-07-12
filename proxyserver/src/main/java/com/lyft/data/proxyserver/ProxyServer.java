@@ -47,7 +47,17 @@ public class ProxyServer implements Closeable {
   }
 
   private void setupContext(ProxyServerConfiguration config) {
-    ServerConnector connector = null;
+    ServerConnector connector;
+
+    HttpConfiguration httpsConfig = new HttpConfiguration();
+    httpsConfig.setOutputBufferSize(32768);
+
+    if (config.getRequestHeaderSize() != 0) {
+      httpsConfig.setRequestHeaderSize(config.getRequestHeaderSize());
+    }
+    if (config.getResponseHeaderSize() != 0) {
+      httpsConfig.setResponseHeaderSize(config.getResponseHeaderSize());
+    }
 
     if (config.isSsl()) {
       String keystorePath = config.getKeystorePath();
@@ -65,10 +75,8 @@ public class ProxyServer implements Closeable {
         sslContextFactory.setKeyManagerPassword(keystorePass);
       }
 
-      HttpConfiguration httpsConfig = new HttpConfiguration();
       httpsConfig.setSecureScheme(HttpScheme.HTTPS.asString());
       httpsConfig.setSecurePort(config.getLocalPort());
-      httpsConfig.setOutputBufferSize(32768);
 
       SecureRequestCustomizer src = new SecureRequestCustomizer();
       src.setStsMaxAge(TimeUnit.SECONDS.toSeconds(2000));
@@ -80,7 +88,7 @@ public class ProxyServer implements Closeable {
               new SslConnectionFactory(sslContextFactory, HttpVersion.HTTP_1_1.asString()),
               new HttpConnectionFactory(httpsConfig));
     } else {
-      connector = new ServerConnector(server);
+      connector = new ServerConnector(server, new HttpConnectionFactory(httpsConfig));
     }
     connector.setHost("0.0.0.0");
     connector.setPort(config.getLocalPort());

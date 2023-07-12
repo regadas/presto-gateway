@@ -6,6 +6,11 @@ import lombok.Data;
 public class ProxyServerConfiguration {
   private String name;
   private int localPort;
+  private int requestHeaderSize;
+  private int requestBufferSize;
+  private int responseHeaderSize;
+  private int responseBufferSize;
+
   private String proxyTo;
   private String prefix = "/";
   private String trustAll = "true";
@@ -46,6 +51,22 @@ public class ProxyServerConfiguration {
 
   protected int getLocalPort() {
     return localPort;
+  }
+
+  protected int getRequestHeaderSize() {
+    return requestHeaderSize;
+  }
+
+  public int getRequestBufferSize() {
+    return requestBufferSize;
+  }
+
+  public int getResponseHeaderSize() {
+    return responseHeaderSize;
+  }
+
+  public int getResponseBufferSize() {
+    return responseBufferSize;
   }
 
   protected boolean isForwardedHttps() {
