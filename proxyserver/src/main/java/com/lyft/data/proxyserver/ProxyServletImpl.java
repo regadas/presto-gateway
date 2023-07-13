@@ -45,6 +45,14 @@ public class ProxyServletImpl extends ProxyServlet.Transparent {
     sslFactory.setSslSessionTimeout((int) TimeUnit.SECONDS.toMillis(15));
 
     HttpClient httpClient = new HttpClient(sslFactory);
+    if (serverConfig != null) {
+      if (serverConfig.getRequestBufferSize() != 0) {
+        httpClient.setRequestBufferSize(serverConfig.getRequestBufferSize());
+      }
+      if (serverConfig.getResponseBufferSize() != 0) {
+        httpClient.setResponseBufferSize(serverConfig.getResponseBufferSize());
+      }
+    }
     httpClient.setMaxConnectionsPerDestination(10000);
     httpClient.setConnectTimeout(TimeUnit.SECONDS.toMillis(60));
     return httpClient;
