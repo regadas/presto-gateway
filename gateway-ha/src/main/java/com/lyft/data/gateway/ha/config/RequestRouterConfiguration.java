@@ -22,4 +22,10 @@ public class RequestRouterConfiguration {
 
   // assume https if forwarded by a proxy
   private boolean forwardedHttps;
+
+  // Set custom sizes for HTTP connection buffers
+  private int requestHeaderSize;
+  private int responseHeaderSize;
+  private int requestBufferSize;
+  private int responseBufferSize;
 }
